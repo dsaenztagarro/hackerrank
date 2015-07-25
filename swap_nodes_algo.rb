@@ -144,8 +144,9 @@ Tree.instance_eval do
 end
 
 # Testing purpose
+# @reader = Reader.new(Suite::Test3::STDIN)
 
-@reader = Reader.new(Suite::Test3::STDIN)
+@reader = Reader.new(STDIN)
 @tree = Tree.root
 
 @reader.pairs.each_with_index do |pair, index|
