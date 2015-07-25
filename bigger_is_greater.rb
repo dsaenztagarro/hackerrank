@@ -52,7 +52,7 @@ class Finder
   end
 
   def find
-    possible_words.sort.shift
+    possible_words.sort.reverse!.shift
   end
 
   private
