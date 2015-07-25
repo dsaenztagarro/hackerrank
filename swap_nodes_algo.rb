@@ -86,6 +86,21 @@ class Reader
   end
 end
 
+class Writer
+  def initialize(stdout)
+    @stdout = stdout
+    @lines = []
+  end
+
+  def add_line(line)
+    @lines << line
+  end
+
+  def print
+    @stdout.print @lines.join("\n")
+  end
+end
+
 class Tree
   attr_reader :data
   attr_accessor :left, :right
@@ -144,9 +159,10 @@ Tree.instance_eval do
 end
 
 # Testing purpose
-# @reader = Reader.new(Suite::Test3::STDIN)
+@reader = Reader.new(Suite::Test3::STDIN)
 
-@reader = Reader.new(STDIN)
+# @reader = Reader.new(STDIN)
+@writer = Writer.new(STDOUT)
 @tree = Tree.root
 
 @reader.pairs.each_with_index do |pair, index|
@@ -156,18 +172,11 @@ end
   node.insert(left, right) if node
 end
 
-@states = []
-
 @reader.swaps.each do |swap|
-  state = ''
-  @tree.traverse(1) do |node, depth|
-    node.swap if (depth % swap) == 0
-  end
-
-  @tree.inorder do |node|
-    state += node.data.to_s
-  end
-  @states << state
+  state = []
+  @tree.traverse(1) { |node, depth| node.swap if (depth % swap) == 0 }
+  @tree.inorder { |node| state << node.data.to_s }
+  @writer.add_line(state.join(' '))
 end
 
-print @states.join("\n")
+@writer.print
