@@ -69,9 +69,9 @@ class Finder
 end
 
 # Testing purpose
-@reader = Reader.new(Suite::Test1::STDIN)
+# @reader = Reader.new(Suite::Test1::STDIN)
 
-# @reader = Reader.new(STDIN)
+@reader = Reader.new(STDIN)
 @writer = Writer.new(STDOUT)
 
 @reader.words.each do |word|
