@@ -52,7 +52,7 @@ class Finder
   end
 
   def find
-    possible_words.sort.reverse!.shift
+    possible_words.sort!.shift
   end
 
   private
@@ -69,9 +69,9 @@ class Finder
 end
 
 # Testing purpose
-# @reader = Reader.new(Suite::Test1::STDIN)
+@reader = Reader.new(Suite::Test1::STDIN)
 
-@reader = Reader.new(STDIN)
+# @reader = Reader.new(STDIN)
 @writer = Writer.new(STDOUT)
 
 @reader.words.each do |word|
