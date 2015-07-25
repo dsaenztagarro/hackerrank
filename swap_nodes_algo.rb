@@ -136,7 +136,12 @@ module Swappable
   end
 end
 
-Tree.include(Insertable, Traversable, Searchable, Swappable)
+Tree.instance_eval do
+  include Insertable
+  include Traversable
+  include Searchable
+  include Swappable
+end
 
 # Testing purpose
 
