@@ -159,9 +159,9 @@ Tree.instance_eval do
 end
 
 # Testing purpose
-@reader = Reader.new(Suite::Test3::STDIN)
+# @reader = Reader.new(Suite::Test3::STDIN)
 
-# @reader = Reader.new(STDIN)
+@reader = Reader.new(STDIN)
 @writer = Writer.new(STDOUT)
 @tree = Tree.root
 
