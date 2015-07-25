@@ -29,6 +29,28 @@ module Suite
       end
     end
   end
+
+  module Test3
+    class STDIN
+      def self.read
+        %{11
+2 3
+4 -1
+5 -1
+6 -1
+7 8
+-1 9
+-1 -1
+10 11
+-1 -1
+-1 -1
+-1 -1
+2
+2
+4}
+      end
+    end
+  end
 end
 
 # Responsible for reading STDIN
@@ -120,7 +142,7 @@ Tree.include(Insertable, Traversable, Searchable, Swappable)
 
 # Testing purpose
 
-@reader = Reader.new(Suite::Test2::STDIN)
+@reader = Reader.new(Suite::Test3::STDIN)
 @tree = Tree.root
 
 @reader.pairs.each_with_index do |pair, index|
@@ -135,12 +157,9 @@ end
 @reader.swaps.each do |swap|
   state = ''
   @tree.traverse(1) do |node, depth|
-    if (depth % swap) == 0
-      node.swap
-      # if multiple bases fit a depth level we break to avoid reversion
-      break
-    end
+    node.swap if (depth % swap) == 0
   end
+
   @tree.inorder do |node|
     state += node.data.to_s
   end
