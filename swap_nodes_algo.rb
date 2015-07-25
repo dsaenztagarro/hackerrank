@@ -1,5 +1,3 @@
-require 'byebug'
-
 module Suite
   module Test1
     class STDIN
