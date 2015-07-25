@@ -52,15 +52,16 @@ class Finder
   end
 
   def find
-    possible_words.map { |word| word.join }.sort.shift
+    possible_words.sort.shift
   end
 
   private
 
   def possible_words
     @word.split('').permutation.inject([]) do |memo, word|
-      if (word.join <=> @word).eql? 1
-        memo << word
+      perm = word.join
+      if (perm <=> @word).eql? 1
+        memo << perm
       end
       memo
     end
