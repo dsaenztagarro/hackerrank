@@ -52,9 +52,7 @@ class Checker
 
   def check
     alphabet = Set.new(all_characters)
-    @str.downcase.split('').each do |letter|
-      alphabet.delete(letter)
-    end
+    @str.downcase.split('').each { |letter| alphabet.delete(letter) }
     alphabet.empty?
   end
 
@@ -66,16 +64,12 @@ class Checker
 end
 
 # Testing purpose
-# @reader = Reader.new(Suite::Test2::STDIN)
+# @reader = Reader.new(Suite::Test1::STDIN)
 
 @reader = Reader.new(STDIN)
 @writer = Writer.new(STDOUT)
 
-
-if Checker.new(@reader.string).check
-  @writer.add_line 'pangram'
-else
-  @writer.add_line 'not pangram'
-end
+success = Checker.new(@reader.string).check
+@writer.add_line "#{success ? '' : 'not '}pangram"
 
 @writer.print
