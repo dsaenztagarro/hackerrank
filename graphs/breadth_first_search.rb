@@ -164,6 +164,7 @@ class Graph
     edges.each { |edge| insert(edge.x, edge.y) }
   end
 
+  # @return [Boolean] Marks whether or not there is a path between two nodes
   def breath_first_search(end_index)
     node_queue = [@start_index]
     loop do
