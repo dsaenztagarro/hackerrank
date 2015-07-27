@@ -10,16 +10,6 @@ module Suite
   end
 end
 
-module ArrayExtensions
-  refine Array do
-    def reverse_each_with_index(&block)
-      (0...length).reverse_each do |index|
-        block.call self[index], index
-      end
-    end
-  end
-end
-
 # Responsible for reading STDIN
 class Reader
   attr_reader :array, :size, :value
@@ -71,16 +61,12 @@ class Writer
 end
 
 class Sorter
-  using ArrayExtensions
-
-  def initialize(array, value, writer)
+  def initialize(array, value)
     @array = array
     @value = value
-    @writer = writer
   end
 
   def find_index
-
     @array.each_with_index do |item, index|
       return index if @value == item
     end
@@ -88,12 +74,12 @@ class Sorter
 end
 
 # Testing purpose
-# @reader = Reader.new(Suite::Test1::STDIN)
+@reader = Reader.new(Suite::Test1::STDIN)
 
-@reader = Reader.new(STDIN)
+# @reader = Reader.new(STDIN)
 @writer = Writer.new(STDOUT)
 
-index = Sorter.new(@reader.array, @reader.value, @writer).find_index
+index = Sorter.new(@reader.array, @reader.value).find_index
 
 @writer.add_line(index)
 @writer.print
