@@ -1,3 +1,4 @@
+require 'byebug'
 require 'set'
 
 module Suite
@@ -196,6 +197,7 @@ class Graph
     @visited_set = Set.new
     counter_queue = [0]
     loop do
+      byebug
       curr_node = node_queue.pop
       counter = counter_queue.pop
       @visited_set.add(curr_node)
@@ -203,8 +205,8 @@ class Graph
       return -1 if curr_node == nil
       return counter if curr_node == end_index
 
-      children = (2..@number_of_nodes).to_a.select do |index|
-        edge?(curr_node, index) && !visited?(index)
+      children = (1..@number_of_nodes).to_a.select do |index|
+        edge?(curr_node, index) && !visited?(index) if index != curr_node
       end
 
       children_counter = []
