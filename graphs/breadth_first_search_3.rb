@@ -1,3 +1,6 @@
+require 'byebug'
+require 'set'
+
 module Suite
   module Test1
     class STDIN
@@ -7,6 +10,32 @@ module Suite
 1 2
 1 3
 1}
+      end
+    end
+  end
+
+  module Test2
+    class STDIN
+      def self.read
+        %{1
+5 3
+1 2
+1 3
+3 4
+1}
+      end
+    end
+  end
+
+  module Test3
+    class STDIN
+      def self.read
+        %{1
+5 3
+1 2
+1 3
+3 4
+5}
       end
     end
   end
@@ -159,6 +188,7 @@ class Graph
     @number_of_nodes = number_of_nodes
     @start_index = start_index
     @adj_matrix = AdjacencyMatrix.new
+    @visited_set = Set.new
     edges.each { |edge| insert(edge.x, edge.y) }
   end
 
@@ -169,16 +199,18 @@ class Graph
     loop do
       curr_node = node_queue.pop
       counter = counter_queue.pop
+      @visited_set.add(curr_node)
 
       return -1 if curr_node == nil
       return counter if curr_node == end_index
 
       children = (2..@number_of_nodes).to_a.select do |index|
-        edge?(curr_node, index)
+        edge?(curr_node, index) && !visited?(index)
       end
 
       children_counter = []
-      children.size.times { children_counter << 6 }
+      new_counter = counter + 6
+      children.size.times { children_counter << new_counter }
       node_queue = children + node_queue
       counter_queue = children_counter + counter_queue
     end
@@ -196,20 +228,26 @@ class Graph
     x, y = y, x if y > x
     @adj_matrix[x, y] == 1
   end
+
+  def visited?(x)
+    @visited_set.include? x
+  end
 end
 
 # Testing purpose
-# @reader = Reader.new(Suite::Test1::STDIN)
+@reader = Reader.new(Suite::Test2::STDIN)
 
-@reader = Reader.new(STDIN)
+# @reader = Reader.new(STDIN)
 @writer = Writer.new(STDOUT)
 
 shortest_distances = []
 @reader.each_testcase do |obj|
   @graph = Graph.new(obj.number_of_nodes, obj.edges, obj.start_index)
-  (2..4).to_a.each do |i|
-    distance = @graph.breath_first_search(i)
-    shortest_distances << distance
+  (1..obj.number_of_nodes).to_a.each do |i|
+    if i != obj.start_index
+      distance = @graph.breath_first_search(i)
+      shortest_distances << distance
+    end
   end
 end
 
