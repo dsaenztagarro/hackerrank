@@ -1,4 +1,3 @@
-require 'byebug'
 require 'set'
 
 module Suite
@@ -188,13 +187,13 @@ class Graph
     @number_of_nodes = number_of_nodes
     @start_index = start_index
     @adj_matrix = AdjacencyMatrix.new
-    @visited_set = Set.new
     edges.each { |edge| insert(edge.x, edge.y) }
   end
 
   # @return [Boolean] Marks whether or not there is a path between two nodes
   def breath_first_search(end_index)
     node_queue = [@start_index]
+    @visited_set = Set.new
     counter_queue = [0]
     loop do
       curr_node = node_queue.pop
@@ -235,9 +234,9 @@ class Graph
 end
 
 # Testing purpose
-@reader = Reader.new(Suite::Test2::STDIN)
+# @reader = Reader.new(Suite::Test2::STDIN)
 
-# @reader = Reader.new(STDIN)
+@reader = Reader.new(STDIN)
 @writer = Writer.new(STDOUT)
 
 shortest_distances = []
