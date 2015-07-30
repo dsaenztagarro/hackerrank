@@ -21,7 +21,7 @@ module Suite
 1 2
 1 3
 3 4
-1}
+3}
       end
     end
   end
@@ -234,9 +234,9 @@ class Graph
 end
 
 # Testing purpose
-# @reader = Reader.new(Suite::Test2::STDIN)
+@reader = Reader.new(Suite::Test2::STDIN)
 
-@reader = Reader.new(STDIN)
+# @reader = Reader.new(STDIN)
 @writer = Writer.new(STDOUT)
 
 shortest_distances = []
