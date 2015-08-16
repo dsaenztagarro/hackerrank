@@ -197,7 +197,6 @@ class Graph
     @visited_set = Set.new
     counter_queue = [0]
     loop do
-      byebug
       curr_node = node_queue.pop
       counter = counter_queue.pop
       @visited_set.add(curr_node)
@@ -205,8 +204,11 @@ class Graph
       return -1 if curr_node == nil
       return counter if curr_node == end_index
 
-      children = (1..@number_of_nodes).to_a.select do |index|
-        edge?(curr_node, index) && !visited?(index) if index != curr_node
+      low_interval = (1..curr_node - 1).to_a
+      high_interval = (curr_node + 1..@number_of_nodes).to_a
+      interval = low_interval.concat(high_interval)
+      children = interval.to_a.select do |index|
+        edge?(curr_node, index) && !visited?(index)
       end
 
       children_counter = []
@@ -244,11 +246,12 @@ end
 shortest_distances = []
 @reader.each_testcase do |obj|
   @graph = Graph.new(obj.number_of_nodes, obj.edges, obj.start_index)
-  (1..obj.number_of_nodes).to_a.each do |i|
-    if i != obj.start_index
-      distance = @graph.breath_first_search(i)
-      shortest_distances << distance
-    end
+  low_interval = (1..obj.start_index - 1).to_a
+  high_interval = (obj.start_index + 1..obj.number_of_nodes).to_a
+  interval = low_interval.concat(high_interval)
+  interval.each do |i|
+    distance = @graph.breath_first_search(i)
+    shortest_distances << distance
   end
 end
 
