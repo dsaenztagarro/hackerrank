@@ -36,11 +36,13 @@ shared_examples 'expected stdout' do |stdin_file, stdout_file|
       tc.edges.each { |edge| graph.add_edge(edge.x, edge.y) }
       graph.traverse(tc.start_index)
       result = graph.distances.compact.select { |dist| dist != 0 }.join(' ')
+      byebug
       expect(stdout_text.index(result).eql? 0).to be true
     end
   end
 end
 
 describe BfsGraph do
-  it_behaves_like 'expected stdout', 'stdin1.txt', 'stdout1.txt'
+  it_behaves_like 'expected stdout', 'bfs_stdin1.txt', 'bfs_stdout1.txt'
+  it_behaves_like 'expected stdout', 'bfs_stdin2.txt', 'bfs_stdout2.txt'
 end
