@@ -10,6 +10,10 @@ class BfsGraph < Graph
     all_vertices.each { |x| @distances[x] = -1 }
   end
 
+  def hook_process_start_vertex(start)
+    @distances[start] = 0
+  end
+
   def hook_process_edge(x, y)
     if @distances[x] >= 0 && @distances[y] < 0
       @distances[y] = @distances[x] + 6
@@ -30,8 +34,9 @@ describe BfsGraph do
       @reader = Reader.new(STDIN)
       @reader.each_testcase do |tc|
         graph = BfsGraph.new(tc.number_of_nodes, false)
+        tc.edges.each { |edge| graph.add_edge(edge.x, edge.y) }
         graph.traverse(tc.start_index)
-        STDOUT.print graph.distances.join(' ') + '\n'
+        STDOUT.print graph.distances.select { |dist| dist != 0 }.join(' ') + '\n'
       end
     end
   end

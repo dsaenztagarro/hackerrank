@@ -10,13 +10,15 @@ module Algorithm
       reset_vertices
       queue = Queue.new(start)
       @vertices[start].status = Vertex::DISCOVERED
+      hook_process_start_vertex(start)
+      byebug
       loop do
-        value = queue.dequeue
-        parent = @vertices[value]
+        x = queue.dequeue
+        parent = @vertices[x]
         parent.status = Vertex::PROCESSED
-        [*@edges[value]].each do |edgenode|
+        [*@edges[x]].each do |edgenode|
           vertex = @vertices[edgenode.y]
-          hook_process_edge if !vertex.processed? || @directed
+          hook_process_edge(x, edgenode.y) if !vertex.processed? || @directed
           if !vertex.discovered?
             queue.enqueue(edgenode.y)
             vertex.status = Vertex::DISCOVERED
