@@ -15,11 +15,12 @@ module Algorithm
         x = queue.dequeue
         parent = @vertices[x]
         parent.status = Vertex::PROCESSED
-        parent.each_edge do |edgenode|
-          vertex = @vertices[edgenode.y]
-          hook_process_edge(x, edgenode.y) if !vertex.processed? || @directed
+        parent.each_edge do |edge|
+          y = edge.y
+          vertex = @vertices[y]
+          hook_process_edge(x, y) if !vertex.processed? || @directed
           if !vertex.discovered?
-            queue.enqueue(edgenode.y)
+            queue.enqueue(y)
             vertex.status = Vertex::DISCOVERED
             vertex.parent = parent
           end
