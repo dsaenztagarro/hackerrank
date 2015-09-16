@@ -25,14 +25,18 @@ class Graph
   protected
 
   def reset_vertices
-    @nvertices.times { |x| @vertices[x].status = Vertex::UNDISCOVERED }
+    all_vertices.each { |x| @vertices[x].status = Vertex::UNDISCOVERED }
   end
 
   private
 
   def init_vertices
     @vertices << nil
-    @nvertices.times { @vertices << Node.new }
+    all_vertices.each { |x| @vertices[x] = Vertex.new }
+  end
+
+  def all_vertices
+    (1..@nvertices).to_a
   end
 
   def init_edges

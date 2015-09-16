@@ -1,7 +1,7 @@
 # Represents a priority queue
 class Queue
-  def initialize
-    @list = []
+  def initialize(start)
+    @list = [start]
   end
 
   # @param vertex [Fixnum] The number of vertex

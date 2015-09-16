@@ -20,20 +20,17 @@ class BfsGraph < Graph
 end
 
 describe BfsGraph do
-  let :stdin do
-    STDIN.stub(:read).with(File.read(File.join('spec', 'fixtures', stdin_file)))
-  end
-  let :reader do
-    Reader.new(stdin)
-  end
-
-  context 'stdin1' do
+  context 'stdin1.txt' do
     let(:stdin_file){ 'stdin1.txt' }
 
     it 'returns expected output' do
-      reader.each_testcase do |testcase|
-        graph = BfsGraph.new(testcase.number_of_nodes, false)
-        graph.traverse
+      allow(STDIN).to receive(:read).and_return(
+        File.read(File.join('spec', 'fixtures', stdin_file)))
+
+      @reader = Reader.new(STDIN)
+      @reader.each_testcase do |tc|
+        graph = BfsGraph.new(tc.number_of_nodes, false)
+        graph.traverse(tc.start_index)
         STDOUT.print graph.distances.join(' ') + '\n'
       end
     end

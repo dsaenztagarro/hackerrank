@@ -12,6 +12,7 @@ module Algorithm
       @vertices[start] = Vertex::DISCOVERED
       loop do
         value = queue.dequeue
+        byebug
         parent = @vertices[value]
         parent.status = Vertex::PROCESSED
         [*@edges[value]].each do |edgenode|
