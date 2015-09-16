@@ -11,7 +11,6 @@ module Algorithm
       queue = Queue.new(start)
       @vertices[start].status = Vertex::DISCOVERED
       hook_process_start_vertex(start)
-      byebug
       loop do
         x = queue.dequeue
         parent = @vertices[x]

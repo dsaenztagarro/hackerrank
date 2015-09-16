@@ -26,12 +26,14 @@ class Graph
 
   def init_vertices
     @vertices = []
-    each_vertice { |x| @vertice = Vertex.new }
+    vertices_indexes.each { |i| @vertices[i] = Vertex.new }
   end
 
   def each_vertice
-    (1..@nvertices).to_a.each do |x|
-      yield(@vertice[x])
-    end
+    vertices_indexes.each { |x| yield(@vertices[x]) }
+  end
+
+  def vertices_indexes
+    (1..@nvertices).to_a
   end
 end

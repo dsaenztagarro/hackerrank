@@ -7,7 +7,7 @@ class BfsGraph < Graph
   def initialize(*args)
     super
     @distances = []
-    all_vertices.each { |x| @distances[x] = -1 }
+    (1..@nvertices).to_a.each { |x| @distances[x] = -1 }
   end
 
   def hook_process_start_vertex(start)
@@ -23,21 +23,24 @@ class BfsGraph < Graph
   end
 end
 
-describe BfsGraph do
-  context 'stdin1.txt' do
-    let(:stdin_file){ 'stdin1.txt' }
+shared_examples 'expected stdout' do |stdin_file, stdout_file|
+  let(:stdin_text) { File.read(File.join('spec', 'fixtures', stdin_file)) }
+  let(:stdout_text) { File.read(File.join('spec', 'fixtures', stdout_file)) }
 
-    it 'returns expected output' do
-      allow(STDIN).to receive(:read).and_return(
-        File.read(File.join('spec', 'fixtures', stdin_file)))
+  it 'returns expected output' do
+    allow(STDIN).to receive(:read).and_return(stdin_text)
 
-      @reader = Reader.new(STDIN)
-      @reader.each_testcase do |tc|
-        graph = BfsGraph.new(tc.number_of_nodes, false)
-        tc.edges.each { |edge| graph.add_edge(edge.x, edge.y) }
-        graph.traverse(tc.start_index)
-        STDOUT.print graph.distances.select { |dist| dist != 0 }.join(' ') + '\n'
-      end
+    @reader = Reader.new(STDIN)
+    @reader.each_testcase do |tc|
+      graph = BfsGraph.new(tc.number_of_nodes, false)
+      tc.edges.each { |edge| graph.add_edge(edge.x, edge.y) }
+      graph.traverse(tc.start_index)
+      result = graph.distances.compact.select { |dist| dist != 0 }.join(' ')
+      expect(stdout_text.index(result).eql? 0).to be true
     end
   end
+end
+
+describe BfsGraph do
+  it_behaves_like 'expected stdout', 'stdin1.txt', 'stdout1.txt'
 end
