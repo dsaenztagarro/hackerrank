@@ -16,11 +16,11 @@ class BfsGraph < Graph
 
   private
 
-  def hook_process_start_vertex(start)
+  def process_vertex_start(start)
     @distances[start] = 0
   end
 
-  def hook_process_edge(x, y)
+  def process_edge(x, y)
     if @distances[x] >= 0 && @distances[y] < 0
       @distances[y] = @distances[x] + 6
     elsif @distances[y] >= 0 && distances[x] < 0

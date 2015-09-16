@@ -10,7 +10,7 @@ module Algorithm
       reset_vertices
       queue = Queue.new(start)
       @vertices[start].status = Vertex::DISCOVERED
-      hook_process_start_vertex(start)
+      process_vertex_start(start)
       loop do
         x = queue.dequeue
         parent = @vertices[x]
@@ -18,7 +18,7 @@ module Algorithm
         parent.each_edge do |edge|
           y = edge.y
           vertex = @vertices[y]
-          hook_process_edge(x, y) if !vertex.processed? || @directed
+          process_edge(x, y) if !vertex.processed? || @directed
           if vertex.undiscovered?
             queue.enqueue(y)
             vertex.update_attributes(status: Vertex::DISCOVERED, parent: parent)
@@ -29,16 +29,12 @@ module Algorithm
     end
 
     # @param value [Fixnum]
-    def hook_process_vertex_early(value)
-    end
-
-    # @param value [Fixnum]
-    def hook_process_vertex_late(value)
+    def process_vertex_start(value)
     end
 
     # @param x [Fixnum] the start of the edge
     # @param y [Fiynum] the end of the edge
-    def hook_process_edge(x, y)
+    def process_edge(x, y)
     end
   end
 end
