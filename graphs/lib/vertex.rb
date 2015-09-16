@@ -22,4 +22,8 @@ class Vertex
   def add_edge(y, weight)
     @edges << EdgeNode.new(y, weight)
   end
+
+  def each_edge
+    @edges.each { |edge| yield(edge) }
+  end
 end
