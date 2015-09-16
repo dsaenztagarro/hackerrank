@@ -1,6 +1,6 @@
 # Represents a vertex of a graph
 class Vertex
-  attr_accessor :status, :parent, :edges
+  attr_accessor :id, :status, :parent, :edges
 
   UNDISCOVERED = 1
   DISCOVERED = 2
@@ -9,6 +9,11 @@ class Vertex
   def initialize
     @status = UNDISCOVERED
     @edges = []
+  end
+
+  def update_attributes(opts)
+    @status = opts[:status] || @status
+    @parent = opts[:parent] || @parent
   end
 
   def undiscovered?

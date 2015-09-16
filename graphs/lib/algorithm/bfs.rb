@@ -21,8 +21,7 @@ module Algorithm
           hook_process_edge(x, y) if !vertex.processed? || @directed
           if vertex.undiscovered?
             queue.enqueue(y)
-            vertex.status = Vertex::DISCOVERED
-            vertex.parent = parent
+            vertex.update_attributes(status: Vertex::DISCOVERED, parent: parent)
           end
         end
         break if queue.empty?
