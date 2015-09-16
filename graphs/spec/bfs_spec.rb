@@ -7,8 +7,14 @@ class BfsGraph < Graph
   def initialize(*args)
     super
     @distances = []
-    (1..@nvertices).to_a.each { |x| @distances[x] = -1 }
+    vertices_indexes.each { |x| @distances[x] = -1 }
   end
+
+  def read_distances
+    @distances.compact.select { |dist| dist != 0 }.join(' ')
+  end
+
+  private
 
   def hook_process_start_vertex(start)
     @distances[start] = 0
@@ -35,8 +41,7 @@ shared_examples 'expected stdout' do |stdin_file, stdout_file|
       graph = BfsGraph.new(tc.number_of_nodes, false)
       tc.edges.each { |edge| graph.add_edge(edge.x, edge.y) }
       graph.traverse(tc.start_index)
-      result = graph.distances.compact.select { |dist| dist != 0 }.join(' ')
-      byebug
+      result = graph.read_distances
       expect(stdout_text.index(result).eql? 0).to be true
     end
   end
