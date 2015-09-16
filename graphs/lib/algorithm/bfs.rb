@@ -19,7 +19,7 @@ module Algorithm
           y = edge.y
           vertex = @vertices[y]
           hook_process_edge(x, y) if !vertex.processed? || @directed
-          if !vertex.discovered?
+          if vertex.undiscovered?
             queue.enqueue(y)
             vertex.status = Vertex::DISCOVERED
             vertex.parent = parent

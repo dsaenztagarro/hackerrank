@@ -11,6 +11,10 @@ class Vertex
     @edges = []
   end
 
+  def undiscovered?
+    @status == UNDISCOVERED
+  end
+
   def discovered?
     @status == DISCOVERED
   end
