@@ -36,18 +36,20 @@ shared_examples 'expected stdout' do |stdin_file, stdout_file|
   it 'returns expected output' do
     allow(STDIN).to receive(:read).and_return(stdin_text)
 
+    result = ''
     @reader = Reader.new(STDIN)
     @reader.each_testcase do |tc|
       graph = BfsGraph.new(tc.number_of_nodes, false)
       tc.edges.each { |edge| graph.add_edge(edge.x, edge.y) }
       graph.traverse(tc.start_index)
-      result = graph.read_distances
-      expect(stdout_text.index(result).eql? 0).to be true
+      result += graph.read_distances + "\n"
     end
+    expect(stdout_text.index(result).eql? 0).to be true
   end
 end
 
 describe BfsGraph do
   it_behaves_like 'expected stdout', 'bfs_stdin1.txt', 'bfs_stdout1.txt'
   it_behaves_like 'expected stdout', 'bfs_stdin2.txt', 'bfs_stdout2.txt'
+  it_behaves_like 'expected stdout', 'bfs_stdin3.txt', 'bfs_stdout3.txt'
 end
