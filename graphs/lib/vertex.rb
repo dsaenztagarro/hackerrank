@@ -12,7 +12,7 @@ class Vertex
   end
 
   def discovered?
-    @status = DISCOVERED
+    @status == DISCOVERED
   end
 
   def processed?
