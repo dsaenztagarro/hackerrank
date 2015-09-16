@@ -7,7 +7,7 @@ class BfsGraph < Graph
   def initialize(*args)
     super
     @distances = []
-    @nvertices.times { @distances = -1 }
+    all_vertices.each { |x| @distances[x] = -1 }
   end
 
   def hook_process_edge(x, y)

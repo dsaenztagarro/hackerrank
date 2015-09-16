@@ -9,10 +9,9 @@ module Algorithm
     def traverse(start)
       reset_vertices
       queue = Queue.new(start)
-      @vertices[start] = Vertex::DISCOVERED
+      @vertices[start].status = Vertex::DISCOVERED
       loop do
         value = queue.dequeue
-        byebug
         parent = @vertices[value]
         parent.status = Vertex::PROCESSED
         [*@edges[value]].each do |edgenode|
